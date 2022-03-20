@@ -1,6 +1,8 @@
 import { BaseLogger, ElasticLogger } from "../crossCuttingConcerns/logging/logger.js";
 import User from "../models/user.js";
 import UserService from "../services/userService.js";
+import Customer from "../models/customer.js";
+
 
 
 console.log("user component yüklendi");
@@ -9,23 +11,30 @@ let logger1=new ElasticLogger();
 let userService=new UserService(logger1);
 
 
-let user1=new User(1,"emine","çelik","muğla");
-let user2=new User(2,"fatmanur","çelik","antakya");
-let user3=new User(3,"hasan","çelik","konya");
-let user4=new User(4,"nazan","çelik","antalya");
-let user5=new User(5,"hatice","çelik","muğla");
 
+userService.load();
+console.log(userService.customers);
+console.log(userService.employees);
+console.log(userService.errors);
+
+console.log("-------------------------------------");
+
+let user1=new Customer(1,"emine","çelik","muğla","asdas","12345");
+user1.type="customer";
+let user2=new Customer(2,"fatmanur","çelik","antakya",24,"1235");
+user2.type="customer";
 
 userService.add(user1);
 userService.add(user2);
-userService.add(user3);
-userService.add(user4);
-userService.add(user5);
 
-console.log(userService.list());
-console.log(userService.getByİd(2));
+console.log(userService.customers);
+console.log(userService.employees);
+console.log(userService.errors);
 
+userService.listCustomers().forEach(customer => {
+    console.log(customer);
+});
 
-
+console.log(userService.getCustomersSorted());
 
 
